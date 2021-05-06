@@ -194,11 +194,14 @@ match_scenario <- function(files, scenarioname){
 }
 
 # Process data
-process_data <- function(covidDataSubset, lookup){
+process_data <- function(forecast_data, input_vars, lookup = LOOKUP){
   
   browser()
   
   # TODO
+  
+  forecast_data %>% 
+    select(-contains(c("upper", "lower", "type", "rate", "confirmed")))
   
 }
 
