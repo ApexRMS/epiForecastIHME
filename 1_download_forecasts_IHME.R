@@ -1,7 +1,6 @@
 # HUB ---------------------------------------------------------------------
 
 library(rsyncrosim)
-library(COVID19)
 E <- ssimEnvironment()
 TRANSFORMER_NAME <- "Download IHME forecasts"
 
@@ -37,4 +36,5 @@ write.csv(forecasts, filePath, row.names = FALSE)
 
 # 5. Save outpout
 
-save_output_info(mySce = SCE, input_vars = inputs$input_vars, backend = "HUB", filePath = filePath)
+save_output_info(mySce = SCE, input_vars = inputs$input_vars, backend = "HUB", 
+                 filePath = filePath)
