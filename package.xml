@@ -291,7 +291,11 @@
                 <column name="Country" displayName="Country:" dataType="Integer" validationType="Datasheet" formula1="AllJurisdictions"/>
                 <column name="Level" displayName="Level:" dataType="Integer" validationType="Datasheet" formula1="AllLevels"/>
                 <column name="ForecastDate" displayName="Forecast date:" dataType="Date" />
+                <column name="ForecastScenario" dataType="Integer" displayName="Forecast scenario:" validationType="List" formula1="1:Base|2:Worse|3:Masks"/>
               </columns>
+              <defaultRecords>
+                <record columns="ForecastScenario" values="1"/>
+              </defaultRecords>
             </datasheet>
           </datasheets>
         </datafeed>
@@ -329,25 +333,29 @@
 
     <layout name="coreforms_ScenarioDatafeeds">
 
-      <group name="IHME" displayName="IHME" appendTo="epi_Sources">
-        
-        <item name="InputsIHME" displayName="Download Settings" showIf="isEither" itemTransformer="DownloadIHME"/>
-        
-        <group name="Results" displayName="Download Results">
+      <group name="Forecasts" displayName="Forecasts" >
+
+        <group name="IHME" displayName="IHME" >
           
-          <item name="OutputsIHME" displayName="Raw Data" showIf="isResult" itemTransformer="DownloadIHME"/>
+          <item name="InputsIHME" displayName="Download Settings" showIf="isEither" itemTransformer="DownloadIHME"/>
           
-          <item
-            name="epi_DataSummary"
-            displayName="Summary Data"
-            filterTransformer="DownloadIHME"
-            showIf="isResult"
-            viewClassName="SyncroSim.Core.Forms.MultiRowDataFeedView"
-            viewClassAssembly="SyncroSim.Core.Forms"
-            itemTransformer="DownloadIHME"/>
+          <group name="Results" displayName="Download Results">
+            
+            <item name="OutputsIHME" displayName="Raw Data" showIf="isResult" itemTransformer="DownloadIHME"/>
+            
+            <item
+              name="epi_DataSummary"
+              displayName="Summary Data"
+              filterTransformer="DownloadIHME"
+              showIf="isResult"
+              viewClassName="SyncroSim.Core.Forms.MultiRowDataFeedView"
+              viewClassAssembly="SyncroSim.Core.Forms"
+              itemTransformer="DownloadIHME"/>
+          
+          </group>
         
         </group>
-      
+
       </group>
     
     </layout>
