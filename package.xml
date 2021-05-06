@@ -288,8 +288,10 @@
               <columns>
                 <column name="InputsIHMEID" dataType="Integer" isPrimary="True"/>
                 <column name="ScenarioID" displayName="Scenario" dataType="Integer"/>
-                <column name="Country" displayName="Country" dataType="Integer" validationType="Datasheet" formula1="AllJurisdictions"/>
-                <column name="Level" displayName="Level" dataType="Integer" validationType="Datasheet" formula1="AllLevels"/>
+                <column name="Country" displayName="Country:" dataType="Integer" validationType="Datasheet" formula1="AllJurisdictions"/>
+                <column name="Level" displayName="Level:" dataType="Integer" validationType="Datasheet" formula1="AllLevels"/>
+                <column name="StartDate" displayName="Starting date:" dataType="Date" />
+                <column name="EndDate" displayName="Ending date:" dataType="Date" />
               </columns>
             </datasheet>
           </datasheets>
