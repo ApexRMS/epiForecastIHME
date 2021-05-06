@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package 
+  name="epiForecastIHME" 
+  displayName="Add-on to the epi package for accessing and downloading the IHME COVID-19 forecasts." 
+  isAddOn="True" 
+  extendsPackage="epi" 
+  version="1.0.0">
+  
+  <transformers>
+
+    <transformer name="Primary" isPrimary="True">
+
+      <include>
+        <transformer name="DownloadIHME"/>
+      </include>
+      
+      <datafeeds>
+
+        <!-- Global, project level Datafeeds -->
+      
+        <datafeed name="AllJurisdictions" displayName="Jurisdictions" dataScope="Project">
+          <datasheets>
+            <datasheet name="AllJurisdictions" displayName="Jurisdictions" valueMember="AllJurisdictionsID" displayMember="Name">
+              <columns>
+                <column name="AllJurisdictionsID" dataType="Integer" isPrimary="True"/>
+                <column name="ProjectID" dataType="Integer"/>
+                <column name="Name" dataType="String"/>
+              </columns>
+              <defaultRecords>
+              <record columns="Name" values="[All Countries]"/>
+              <record columns="Name" values="Afghanistan"/>
+              <record columns="Name" values="Angola"/>
+              <record columns="Name" values="Albania"/>
+              <record columns="Name" values="Andorra"/>
+              <record columns="Name" values="United Arab Emirates"/>
+              <record columns="Name" values="Argentina"/>
+              <record columns="Name" values="Armenia"/>
+              <record columns="Name" values="American Samoa"/>
+              <record columns="Name" values="Antigua and Barbuda"/>
+              <record columns="Name" values="Australia"/>
+              <record columns="Name" values="Austria"/>
+              <record columns="Name" values="Azerbaijan"/>
+              <record columns="Name" values="Burundi"/>
+              <record columns="Name" values="Belgium"/>
+              <record columns="Name" values="Benin"/>
+              <record columns="Name" values="Burkina Faso"/>
+              <record columns="Name" values="Bangladesh"/>
+              <record columns="Name" values="Bulgaria"/>
+              <record columns="Name" values="Bahrain"/>
+              <record columns="Name" values="Bahamas"/>
+              <record columns="Name" values="Bosnia and Herzegovina"/>
+              <record columns="Name" values="Belarus"/>
+              <record columns="Name" values="Belize"/>
+              <record columns="Name" values="Bermuda"/>
+              <record columns="Name" values="Bolivia"/>
+              <record columns="Name" values="Brazil"/>
+              <record columns="Name" values="Barbados"/>
+              <record columns="Name" values="Brunei"/>
+              <record columns="Name" values="Bhutan"/>
+              <record columns="Name" values="Botswana"/>
+              <record columns="Name" values="Costa Atlantica"/>
+              <record columns="Name" values="Central African Republic"/>
+              <record columns="Name" values="Canada"/>
+              <record columns="Name" values="Switzerland"/>
+              <record columns="Name" values="Chile"/>
+              <record columns="Name" values="China"/>
+              <record columns="Name" values="Cote d'Ivoire"/>
+              <record columns="Name" values="Cameroon"/>
+              <record columns="Name" values="Congo, the Democratic Republic of the"/>
+              <record columns="Name" values="Congo"/>
+              <record columns="Name" values="Colombia"/>
+              <record columns="Name" values="Comoros"/>
+              <record columns="Name" values="Cape Verde"/>
+              <record columns="Name" values="Costa Rica"/>
+              <record columns="Name" values="Cuba"/>
+              <record columns="Name" values="Cyprus"/>
+              <record columns="Name" values="Czech Republic"/>
+              <record columns="Name" values="Germany"/>
+              <record columns="Name" values="Djibouti"/>
+              <record columns="Name" values="Dominica"/>
+              <record columns="Name" values="Denmark"/>
+              <record columns="Name" values="Dominican Republic"/>
+              <record columns="Name" values="Diamond Princess"/>
+              <record columns="Name" values="Algeria"/>
+              <record columns="Name" values="Ecuador"/>
+              <record columns="Name" values="Egypt"/>
+              <record columns="Name" values="Eritrea"/>
+              <record columns="Name" values="Spain"/>
+              <record columns="Name" values="Estonia"/>
+              <record columns="Name" values="Ethiopia"/>
+              <record columns="Name" values="Finland"/>
+              <record columns="Name" values="Fiji"/>
+              <record columns="Name" values="France"/>
+              <record columns="Name" values="Gabon"/>
+              <record columns="Name" values="United Kingdom"/>
+              <record columns="Name" values="Georgia"/>
+              <record columns="Name" values="Ghana"/>
+              <record columns="Name" values="Guinea"/>
+              <record columns="Name" values="Gambia"/>
+              <record columns="Name" values="Guinea-Bissau"/>
+              <record columns="Name" values="Equatorial Guinea"/>
+              <record columns="Name" values="Grand Princess"/>
+              <record columns="Name" values="Greece"/>
+              <record columns="Name" values="Grenada"/>
+              <record columns="Name" values="Guatemala"/>
+              <record columns="Name" values="Guam"/>
+              <record columns="Name" values="Guyana"/>
+              <record columns="Name" values="Honduras"/>
+              <record columns="Name" values="Croatia"/>
+              <record columns="Name" values="Haiti"/>
+              <record columns="Name" values="Hungary"/>
+              <record columns="Name" values="Indonesia"/>
+              <record columns="Name" values="India"/>
+              <record columns="Name" values="Ireland"/>
+              <record columns="Name" values="Iran"/>
+              <record columns="Name" values="Iraq"/>
+              <record columns="Name" values="Iceland"/>
+              <record columns="Name" values="Israel"/>
+              <record columns="Name" values="Italy"/>
+              <record columns="Name" values="Jamaica"/>
+              <record columns="Name" values="Jordan"/>
+              <record columns="Name" values="Japan"/>
+              <record columns="Name" values="Kazakhstan"/>
+              <record columns="Name" values="Kenya"/>
+              <record columns="Name" values="Kyrgyzstan"/>
+              <record columns="Name" values="Cambodia"/>
+              <record columns="Name" values="Saint Kitts and Nevis"/>
+              <record columns="Name" values="Korea, South"/>
+              <record columns="Name" values="Kuwait"/>
+              <record columns="Name" values="Laos"/>
+              <record columns="Name" values="Lebanon"/>
+              <record columns="Name" values="Liberia"/>
+              <record columns="Name" values="Libya"/>
+              <record columns="Name" values="Saint Lucia"/>
+              <record columns="Name" values="Liechtenstein"/>
+              <record columns="Name" values="Sri Lanka"/>
+              <record columns="Name" values="Lesotho"/>
+              <record columns="Name" values="Lithuania"/>
+              <record columns="Name" values="Luxembourg"/>
+              <record columns="Name" values="Latvia"/>
+              <record columns="Name" values="Morocco"/>
+              <record columns="Name" values="Monaco"/>
+              <record columns="Name" values="Moldova"/>
+              <record columns="Name" values="Madagascar"/>
+              <record columns="Name" values="Maldives"/>
+              <record columns="Name" values="Mexico"/>
+              <record columns="Name" values="Marshall Islands"/>
+              <record columns="Name" values="North Macedonia"/>
+              <record columns="Name" values="Mali"/>
+              <record columns="Name" values="Malta"/>
+              <record columns="Name" values="Myanmar"/>
+              <record columns="Name" values="Montenegro"/>
+              <record columns="Name" values="Mongolia"/>
+              <record columns="Name" values="Northern Mariana Islands"/>
+              <record columns="Name" values="Mozambique"/>
+              <record columns="Name" values="Mauritania"/>
+              <record columns="Name" values="MS Zaandam"/>
+              <record columns="Name" values="Mauritius"/>
+              <record columns="Name" values="Malawi"/>
+              <record columns="Name" values="Malaysia"/>
+              <record columns="Name" values="Namibia"/>
+              <record columns="Name" values="Niger"/>
+              <record columns="Name" values="Nigeria"/>
+              <record columns="Name" values="Nicaragua"/>
+              <record columns="Name" values="Netherlands"/>
+              <record columns="Name" values="Norway"/>
+              <record columns="Name" values="Nepal"/>
+              <record columns="Name" values="New Zealand"/>
+              <record columns="Name" values="Oman"/>
+              <record columns="Name" values="Pakistan"/>
+              <record columns="Name" values="Panama"/>
+              <record columns="Name" values="Peru"/>
+              <record columns="Name" values="Philippines"/>
+              <record columns="Name" values="Papua New Guinea"/>
+              <record columns="Name" values="Poland"/>
+              <record columns="Name" values="Puerto Rico"/>
+              <record columns="Name" values="Portugal"/>
+              <record columns="Name" values="Paraguay"/>
+              <record columns="Name" values="Palestine"/>
+              <record columns="Name" values="Qatar"/>
+              <record columns="Name" values="Kosovo"/>
+              <record columns="Name" values="Romania"/>
+              <record columns="Name" values="Russia"/>
+              <record columns="Name" values="Rwanda"/>
+              <record columns="Name" values="Saudi Arabia"/>
+              <record columns="Name" values="Sudan"/>
+              <record columns="Name" values="Senegal"/>
+              <record columns="Name" values="Singapore"/>
+              <record columns="Name" values="Solomon Islands"/>
+              <record columns="Name" values="Sierra Leone"/>
+              <record columns="Name" values="El Salvador"/>
+              <record columns="Name" values="San Marino"/>
+              <record columns="Name" values="Somalia"/>
+              <record columns="Name" values="Serbia"/>
+              <record columns="Name" values="South Sudan"/>
+              <record columns="Name" values="Sao Tome and Principe"/>
+              <record columns="Name" values="Suriname"/>
+              <record columns="Name" values="Slovakia"/>
+              <record columns="Name" values="Slovenia"/>
+              <record columns="Name" values="Sweden"/>
+              <record columns="Name" values="Swaziland"/>
+              <record columns="Name" values="Seychelles"/>
+              <record columns="Name" values="Syria"/>
+              <record columns="Name" values="Chad"/>
+              <record columns="Name" values="Togo"/>
+              <record columns="Name" values="Thailand"/>
+              <record columns="Name" values="Tajikistan"/>
+              <record columns="Name" values="Timor-Leste"/>
+              <record columns="Name" values="Trinidad and Tobago"/>
+              <record columns="Name" values="Tunisia"/>
+              <record columns="Name" values="Turkey"/>
+              <record columns="Name" values="Taiwan"/>
+              <record columns="Name" values="Tanzania"/>
+              <record columns="Name" values="Uganda"/>
+              <record columns="Name" values="Ukraine"/>
+              <record columns="Name" values="Uruguay"/>
+              <record columns="Name" values="United States"/>
+              <record columns="Name" values="Uzbekistan"/>
+              <record columns="Name" values="Holy See"/>
+              <record columns="Name" values="Saint Vincent and the Grenadines"/>
+              <record columns="Name" values="Venezuela"/>
+              <record columns="Name" values="Virgin Islands, U.S."/>
+              <record columns="Name" values="Vietnam"/>
+              <record columns="Name" values="Vanuatu"/>
+              <record columns="Name" values="Samoa"/>
+              <record columns="Name" values="Yemen"/>
+              <record columns="Name" values="South Africa"/>
+              <record columns="Name" values="Zambia"/>
+              <record columns="Name" values="Zimbabwe"/>
+              </defaultRecords>
+            </datasheet>
+          </datasheets>
+        </datafeed>
+
+        <datafeed name="AllLevels" displayName="Levels" dataScope="Project" >
+        <datasheets>
+          <datasheet name="AllLevels" displayName="Levels" valueMember="AllLevelsID" displayMember="Name">
+            <columns>
+              <column name="AllLevelsID" dataType="Integer" isPrimary="True"/>
+              <column name="ProjectID" dataType="Integer"/>
+              <column name="Name" dataType="String"/>
+            </columns>
+            <defaultRecords>
+              <record columns="Name" values="(1) Country"/>
+              <record columns="Name" values="(2) State / Province"/>
+              <record columns="Name" values="(3) Lower"/>
+            </defaultRecords>
+          </datasheet>
+        </datasheets>
+        </datafeed>
+
+        <datafeed name="AllDataSources" displayName="DataSources" dataScope="Project" >
+          <datasheets>
+            <datasheet name="AllDataSources" displayName="DataSources" valueMember="AllDataSourcesID" displayMember="Name">
+              <columns>
+                <column name="AllDataSourcesID" dataType="Integer" isPrimary="True"/>
+                <column name="ProjectID" dataType="Integer"/>
+                <column name="Name" dataType="String"/>
+              </columns>
+              <defaultRecords>
+                <record columns="Name" values="IHME"/>
+              </defaultRecords>
+            </datasheet>
+          </datasheets>
+        </datafeed>
+         
+      </datafeeds>
+
+    </transformer>
+
+    <transformer 
+      name="DownloadIHME" 
+      displayName="Download IHME forecasts"
+      programName="Rscript"
+      programArguments="1_download_forecasts_IHME.R"
+      isStandalone="True"
+      isRunnable ="True">
+
+      <datafeeds>
+      
+      <!-- Scenario level Datafeeds -->
+        
+        <!-- Inputs -->
+        
+        <datafeed name="InputsIHME" displayName="IHME" dataScope="Scenario">
+          <datasheets>
+            <datasheet name="InputsIHME" displayName="IHME" isSingleRow="True">
+              <columns>
+                <column name="InputsIHMEID" dataType="Integer" isPrimary="True"/>
+                <column name="ScenarioID" displayName="Scenario" dataType="Integer"/>
+                <column name="Country" displayName="Country" dataType="Integer" validationType="Datasheet" formula1="AllJurisdictions"/>
+                <column name="Level" displayName="Level" dataType="Integer" validationType="Datasheet" formula1="AllLevels"/>
+              </columns>
+            </datasheet>
+          </datasheets>
+        </datafeed>
+      
+        <!-- Outputs -->
+
+        <datafeed name="OutputsIHME" displayName="Results" dataScope="Scenario">
+          <datasheets>
+            <datasheet name="OutputsIHME" displayName="Results" isSingleRow="True">
+              <columns>
+                <column name="OutputsIHMEID" dataType="Integer" isPrimary="True"/>
+                <column name="ScenarioID" displayName="Scenario" dataType="Integer"/>
+                <column name="DataSourceID" displayName="Data Source" dataType="Integer" validationType="Datasheet" formula1="AllDataSources"/>
+                <column name="Jurisdiction" displayName="Jurisdiction" dataType="Integer" validationType="Datasheet" formula1="AllJurisdictions"/>
+                <column name="Level" displayName="Level" dataType="Integer" validationType="Datasheet" formula1="AllLevels"/>
+                <column name="DownloadFile" displayName="Download file" dataType="String" isExternalFile="True"/>
+                <column name="DownloadDateTime" displayName="Download date/time" dataType="Date"/>                
+              </columns>
+            </datasheet>
+          </datasheets>
+        </datafeed>
+    
+      </datafeeds>
+      
+      <pipeline>
+        <datafeed name="InputsIHME"/>
+      </pipeline>
+    
+    </transformer>
+
+  </transformers>
+  
+  <layouts>
+
+    <layout name="coreforms_ScenarioDatafeeds">
+
+      <group name="CovidHub" displayName="COVID-19 Data Hub" appendTo="epi_Sources">
+        
+        <item name="InputsIHME" displayName="Download Settings" showIf="isEither" itemTransformer="DownloadIHME"/>
+        
+        <group name="Results" displayName="Download Results">
+          
+          <item name="OutputsIHME" displayName="Raw Data" showIf="isResult" itemTransformer="DownloadIHME"/>
+          
+          <item
+            name="epi_DataSummary"
+            displayName="Summary Data"
+            filterTransformer="DownloadIHME"
+            showIf="isResult"
+            viewClassName="SyncroSim.Core.Forms.MultiRowDataFeedView"
+            viewClassAssembly="SyncroSim.Core.Forms"
+            itemTransformer="DownloadIHME"/>
+        
+        </group>
+      
+      </group>
+    
+    </layout>
+  
+  </layouts>
+
+</package>
