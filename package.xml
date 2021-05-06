@@ -329,7 +329,7 @@
 
     <layout name="coreforms_ScenarioDatafeeds">
 
-      <group name="CovidHub" displayName="COVID-19 Data Hub" appendTo="epi_Sources">
+      <group name="IHME" displayName="IHME" appendTo="epi_Sources">
         
         <item name="InputsIHME" displayName="Download Settings" showIf="isEither" itemTransformer="DownloadIHME"/>
         
