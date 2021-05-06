@@ -333,7 +333,7 @@
 
     <layout name="coreforms_ScenarioDatafeeds">
 
-      <group name="Forecasts" displayName="Forecasts" >
+      <group name="Forecasts" displayName="Forecasts" insertAfter="epi_Sources">
 
         <group name="IHME" displayName="IHME" >
           
