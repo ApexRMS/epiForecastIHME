@@ -1,18 +1,12 @@
-# HUB ---------------------------------------------------------------------
-
-library(rsyncrosim)
-E <- ssimEnvironment()
-TRANSFORMER_NAME <- "Download IHME forecasts"
-
-# Source helpers ----------------------------------------------------------
+# IHME TRANSFORMER
+# Source accessory scripts ------------------------------------------------
 
 source(file.path(E$PackageDirectory, "0_epiDataForecastIHME_env.R"))
 source(file.path(E$PackageDirectory, "0_epiDataForecastIHME_functions.R"))
-source(file.path(E$PackageDirectory, "0_HIME_functions.R"))
 
 # 1. Load data
 
-inputs <- load_inputs(backend = "IHME", mySce = SCE, e = E)
+forecast <- load_forecast(mySce = SCE, backend = "IHME", E = E)
 
 # 2. Save to epi
 
