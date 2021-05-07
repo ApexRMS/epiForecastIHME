@@ -18,7 +18,9 @@ save_to_epi(dataSubset = forecast$forecast, mySce = SCE, vars = VARS)
 
 # 3. Process data and save it
 
-saveDatasheet(SCE, forecast$forecast, "epi_DataSummary", append = TRUE)
+saveDatasheet(SCE, as.data.frame(forecast$forecast) %>% 
+                mutate(TransformerID = TRANSFORMER_NAME), 
+              "epi_DataSummary", append = TRUE)
 
 # 4. Write out data
 
