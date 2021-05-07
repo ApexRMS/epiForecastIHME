@@ -1,8 +1,12 @@
 # IHME TRANSFORMER
+
+library(rsyncrosim)
+E <- ssimEnvironment()
+
 # Source accessory scripts ------------------------------------------------
 
-source(file.path(E$PackageDirectory, "0_epiDataForecastIHME_env.R"))
-source(file.path(E$PackageDirectory, "0_epiDataForecastIHME_functions.R"))
+source(file.path(E$PackageDirectory, "0_epiForecastIHME_env.R"))
+source(file.path(E$PackageDirectory, "0_epiForecastIHME_functions.R"))
 
 # 1. Load data
 
