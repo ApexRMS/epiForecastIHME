@@ -56,7 +56,8 @@ load_forecast <- function(mySce, backend="IHME", E = E){
   
   forecast_data_clean_filtered <- filter_data(forecast_data_clean, inputs$input_vars)
   
-  return(forecast_data_clean)
+  return(list(inputs = inputs, 
+              forecast = forecast_data_clean_filtered))
   
 }
 
@@ -96,31 +97,45 @@ check_inputs <- function(inputs){
       
       juris_covid <- NULL
       
+      # Check level
+      if(length(inputs$Level) != 0){
+        
+        level_input <- inputs$Level
+        
+        level_covid <- lookup_level(inputs$Level)
+        
+      } else {
+        
+        level_input <- NULL
+        level_covid <- NULL
+        
+      }
+      
     } else {
       
       juris_covid <- juris_input
+      
+      # Check level
+      if(length(inputs$Level) != 0){
+        
+        level_input <- inputs$Level
+        
+        level_covid <- lookup_level(inputs$Level)
+        
+      } else {
+        
+        message("No level provided, default to level 1 (Country)")
+        
+        level_input <- "(1) Country"
+        level_covid <- 1
+        
+      }
       
     }
     
   } else {
     
     stop("No Country provided")
-    
-  }
-  
-  # Check level
-  if(length(inputs$Level) != 0){
-    
-    level_input <- inputs$Level
-    
-    level_covid <- lookup_level(inputs$Level)
-    
-  } else {
-    
-    message("No level provided, default to level 1 (Country)")
-    
-    level_input <- "(1) Country"
-    level_covid <- 1
     
   }
   
@@ -204,39 +219,79 @@ process_data <- function(forecast_data, lookup = VARS_LOOKUP){
     select(-c("V1", "location_id"))
   
   forecast_data_clean <- forecast_data_selected %>% 
-    rename(Timestep = date, Jurisdiction = location_name) %>% 
+    rename(Timestep = date, Jurisdiction_temp = location_name) %>% 
     pivot_longer(3:last_col(), names_to = "RAWVARS", values_to = "Value") %>% 
     left_join(lookup, by = "RAWVARS") %>% 
     select(-"RAWVARS") %>% rename(Variable = VARS) %>% 
-    relocate(Variable, .after = "Jurisdiction") %>% 
-    filter(!is.na(Variable))
+    relocate(Variable, .after = "Jurisdiction_temp") %>% 
+    filter(!is.na(Variable)) %>% 
+    replace_na(list(Value = 0))
   
   # TODO calculadte cumulative hospitalizations
-
+  
   return(forecast_data_clean)
 }
 
 # Filter based on jurisdictions
 filter_data <- function(forecast_data, input_vars, lookup = JURIS_LOOkUP){
   
-  browser()
-  
-  # Filter lookup
-  lookup_sub <- lookup %>% 
-    select(1:(input_vars$level_covid)) %>% 
-    unique() %>% 
-    rename(Jurisdiction = .data[[2]])
-  
-  if(is.null(input_vars$juris_covid)){
-    filtered_data <- filtered_data %>% 
-      filter(Jurisdiction == "Global") %>% 
-      mutate()
+  if(is.null(input_vars$juris_covid) && is.null(input_vars$level_covid)){
+    
+    filtered_data <- forecast_data %>% 
+      filter(Jurisdiction_temp == "Global") %>% 
+      rename(Jurisdiction = Jurisdiction_temp)
+    
+  } else {
+    
+    # Filter lookup, join absed on lower (highest number) level, filter NAs
+    filter_cols <- paste0("administrative_area_level_", 1:input_vars$level_covid)
+    
+    first_filter_col <- "administrative_area_level_1"
+    first_filter_values <- unique(lookup[[first_filter_col]])
+    
+    last_filter_col <- filter_cols[length(filter_cols)]
+    last_filter_values <- unique(lookup[[last_filter_col]])
+    last_filter_values <- last_filter_values[!is.na(last_filter_values)]
+    
+    if(is.null(input_vars$juris_covid)){
+      
+      lookup_sub <- lookup %>% 
+        select(all_of(last_filter_col)) %>% 
+        rename(Jurisdiction_temp := !!last_filter_col) %>% 
+        drop_na() %>% unique()
+      lookup_sub <- 
+        bind_cols(lookup_sub,unite(lookup_sub, "Jurisdiction", everything(), 
+                                   sep = " - ", na.rm=TRUE))
+      
+      filtered_data <- forecast_data %>% 
+        filter(Jurisdiction_temp %in% last_filter_values) %>% 
+        left_join(lookup_sub, by = "Jurisdiction_temp") %>% 
+        select(-Jurisdiction_temp)
+      
+    } else {
+      
+      lookup_sub <- lookup %>% 
+        select(all_of(filter_cols)) %>% 
+        filter(.data[[first_filter_col]] == input_vars$juris_covid) %>% 
+        drop_na() 
+      lookup_sub <- 
+        bind_cols(lookup_sub,unite(lookup_sub, "Jurisdiction", everything(), 
+                                   sep = " - ", na.rm=TRUE)) %>% 
+        rename(Jurisdiction_temp := !!last_filter_col) %>% 
+        drop_na() %>% unique()
+      
+      filtered_data <- forecast_data %>% 
+        filter(Jurisdiction_temp %in% last_filter_values) %>% 
+        left_join(lookup_sub, by = "Jurisdiction_temp") %>% 
+        select(-Jurisdiction_temp) %>% 
+        select(-starts_with("admin")) %>% 
+        filter(!is.na(Jurisdiction))
+      
+    }
+    
+    return(filtered_data)
+    
   }
-  
-  
-  
-  return(filtered_data)
-  
 }
 
 # Save jurisdictions to the epi package datasheets
@@ -244,7 +299,7 @@ save_to_epi <- function(dataSubset, mySce, vars){
   
   # Get the vector of jurisdictions
   allJuris <- unique(dataSubset$Jurisdiction)
-  vars <- unique(vars)
+  vars <- unique(dataSubset$Variable)
   
   # Add the required variables and jurisdictions to the SyncroSim project
   saveDatasheet(mySce, 
@@ -255,15 +310,23 @@ save_to_epi <- function(dataSubset, mySce, vars){
 }
 
 # Make file name
-make_filename <- function(inputs_vars){
+make_filename <- function(inputs){
   
-  # TODO
+  juris_file <- ifelse(is.null(inputs$input_vars$juris_covid), 
+                       "all_countries", inputs$input_vars$juris_covid)
+  level_file <- ifelse(is.null(inputs$input_vars$level_covid), 
+                       "global", inputs$input_vars$level_covid)
+  
+  fileName <- paste0("IHME_forecast_date_", inputs$inputs$ForecastDate, 
+                     "_scenario_", inputs$inputs$ForecastScenario, 
+                     "_for_", juris_file,
+                     "_at_level_", level_file)
   
   return(fileName)
 }
 
 # Save output info
-save_output_info <- function(mySce, input_vars, backend, filePath){
+save_output_info <- function(mySce, inputs, backend, filePath){
   
   if(backend == "IHME"){
     
@@ -282,11 +345,13 @@ save_output_info <- function(mySce, input_vars, backend, filePath){
   
   output <- datasheet(mySce, outputsheet) %>% add_row()
   
-  output$Jurisdiction = input_vars$juris_input
-  output$DataSourceID = sourceID
-  output$Level = input_vars$level_input
-  output$DownloadFile = filePath
-  output$DownloadDateTime = download_time
+  output$DataSourceID <- sourceID
+  output$DownloadFile <- filePath
+  output$DownloadDateTime <- download_time
+  
+  output$ForecastDate <- inputs$inputs$ForecastDate
+  output$Jurisdiction <- inputs$input_vars$juris_input
+  output$Level <- inputs$input_vars$level_input
   
   saveDatasheet(mySce, output, outputsheet)
 }
