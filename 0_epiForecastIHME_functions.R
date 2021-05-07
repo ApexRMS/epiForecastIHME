@@ -320,7 +320,7 @@ make_filename <- function(inputs){
   fileName <- paste0("IHME_forecast_date_", inputs$inputs$ForecastDate, 
                      "_scenario_", inputs$inputs$ForecastScenario, 
                      "_for_", juris_file,
-                     "_at_level_", level_file)
+                     "_at_level_", level_file, ".csv")
   
   return(fileName)
 }
