@@ -10,25 +10,19 @@ forecast <- load_forecast(mySce = SCE, backend = "IHME", E = E)
 
 # 2. Save to epi
 
-save_to_epi(dataSubset = inputs$IHMEData, mySce = SCE, vars = VARS)
+save_to_epi(dataSubset = forecast$forecast, mySce = SCE, vars = VARS)
 
 # 3. Process data and save it
 
-forecasts <- process_data(
-    data = inputs$IHMEData,
-    backend = "IHME", lookup = LOOKUP) %>%
-    mutate(TransformerID = TRANSFORMER_NAME)
-
-saveDatasheet(SCE, covidDataFinal, "epi_DataSummary", append = TRUE)
+saveDatasheet(SCE, forecast$forecast, "epi_DataSummary", append = TRUE)
 
 # 4. Write out data
 
-fileName <- make_filename(inputs_vars = inputs$input_vars)
+fileName <- make_filename(inputs = forecast$inputs)
 filePath <- file.path(E$TransferDirectory, fileName)
-
-write.csv(forecasts, filePath, row.names = FALSE)
+write.csv(forecast$forecast, filePath, row.names = FALSE)
 
 # 5. Save outpout
 
-save_output_info(mySce = SCE, input_vars = inputs$input_vars, backend = "HUB", 
-                 filePath = filePath)
+save_output_info(mySce = SCE, inputs = forecast$inputs, 
+                 backend = "IHME", filePath = filePath)
