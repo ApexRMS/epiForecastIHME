@@ -14,7 +14,6 @@ library(rvest)
 
 LIB <- ssimLibrary()
 SCE <- scenario()
-E <- ssimEnvironment()
 
 # Variables ---------------------------------------------------------------
 
