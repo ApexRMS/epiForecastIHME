@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package 
   name="epiForecastIHME" 
-  displayName="Add-on to the epi package for accessing and downloading the IHME COVID-19 forecasts." 
+  displayName="Download IHME forecasts" 
   isAddOn="True" 
   extendsPackage="epi" 
   version="1.0.0">
