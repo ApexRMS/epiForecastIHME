@@ -74,8 +74,15 @@ load_inputs <- function(backend, mySce){
     
   }
   
-  inputs <- datasheet(mySce, inputsheet, lookupsAsFactors = FALSE) %>% 
-    mutate(ForecastDate = ymd(ForecastDate))
+  inputs <- datasheet(mySce, inputsheet, lookupsAsFactors = FALSE) 
+  
+  if(is.null(inputs$ForecastDate)){
+    inputs$ForecastDate <- ymd(today())
+  } else {
+    inputs <- inputs %>% 
+      mutate(ForecastDate = ymd(ForecastDate))
+  }
+  
   input_vars <- check_inputs(inputs)
   
   outList <- list(inputs = inputs, 
