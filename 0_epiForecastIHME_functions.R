@@ -42,10 +42,8 @@ download_IHME <- function(url, tempdir = E$TempDirectory){
 
 load_forecast <- function(mySce, backend="IHME", E = E){
   
-  browser()
-  
   inputs <- load_inputs(backend, mySce)
-  # inputs <- load_inputs("IHME", SCE)
+  
   closest_date <- get_closest_date(inputs$inputs$ForecastDate)
   
   all_files <- download_IHME(closest_date$url, E$TempDirectory)
@@ -54,7 +52,9 @@ load_forecast <- function(mySce, backend="IHME", E = E){
   
   forecast_data <- read_csv(scenario_file)
   
-  forecast_data_clean <- process_data(forecast_data, inputs$input_vars)
+  forecast_data_clean <- process_data(forecast_data)
+  
+  forecast_data_clean_filtered <- filter_data(forecast_data_clean, inputs$input_vars)
   
   return(forecast_data_clean)
   
@@ -180,13 +180,13 @@ match_scenario <- function(files, scenarioname){
   
   if(scenarioname == "Base"){
     return_scenario <- 
-      names(which(sapply(all_files, grepl, pattern = "reference", fixed = TRUE)))
+      names(which(sapply(files, grepl, pattern = "reference", fixed = TRUE)))
   } else if(scenarioname == "Worse"){
     return_scenario <- 
-      names(which(sapply(all_files, grepl, pattern = "worse", fixed = TRUE)))
+      names(which(sapply(files, grepl, pattern = "worse", fixed = TRUE)))
   } else if(scenarioname == "Masks"){
     return_scenario <- 
-      names(which(sapply(all_files, grepl, pattern = "best", fixed = TRUE)))
+      names(which(sapply(files, grepl, pattern = "best", fixed = TRUE)))
   }
   
   return(return_scenario)
@@ -194,14 +194,48 @@ match_scenario <- function(files, scenarioname){
 }
 
 # Process data
-process_data <- function(forecast_data, input_vars, lookup = LOOKUP){
+process_data <- function(forecast_data, lookup = VARS_LOOKUP){
+  
+  forecast_data_selected <- forecast_data %>%
+    select(-contains(c("type", "rate", "confirmed", "bed", "Ven",
+                       "ICU", "mobility", "tests", "seroprev", "pop"))) %>% 
+    select(-c("deaths_upper", "deaths_lower", "deaths_mean")) %>% 
+    select(-c("totdea_upper", "totdea_lower", "totdea_mean")) %>% 
+    select(-c("V1", "location_id"))
+  
+  forecast_data_clean <- forecast_data_selected %>% 
+    rename(Timestep = date, Jurisdiction = location_name) %>% 
+    pivot_longer(3:last_col(), names_to = "RAWVARS", values_to = "Value") %>% 
+    left_join(lookup, by = "RAWVARS") %>% 
+    select(-"RAWVARS") %>% rename(Variable = VARS) %>% 
+    relocate(Variable, .after = "Jurisdiction") %>% 
+    filter(!is.na(Variable))
+  
+  # TODO calculadte cumulative hospitalizations
+
+  return(forecast_data_clean)
+}
+
+# Filter based on jurisdictions
+filter_data <- function(forecast_data, input_vars, lookup = JURIS_LOOkUP){
   
   browser()
   
-  # TODO
+  # Filter lookup
+  lookup_sub <- lookup %>% 
+    select(1:(input_vars$level_covid)) %>% 
+    unique() %>% 
+    rename(Jurisdiction = .data[[2]])
   
-  forecast_data %>% 
-    select(-contains(c("upper", "lower", "type", "rate", "confirmed")))
+  if(is.null(input_vars$juris_covid)){
+    filtered_data <- filtered_data %>% 
+      filter(Jurisdiction == "Global") %>% 
+      mutate()
+  }
+  
+  
+  
+  return(filtered_data)
   
 }
 
