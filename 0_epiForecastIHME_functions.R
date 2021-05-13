@@ -191,8 +191,9 @@ get_closest_date <- function(input_date){
     # Get the first one
     query_date <- slice_tail(all_dates, n = 1)
   } else {
-    distance_from_input <- abs(all_dates$date - input_date)
-    query_date_id <- which(distance_from_input == min(distance_from_input))[1]
+    the_diff <- all_dates$date - input_date
+    diff_val_to_match <- max(the_diff[which(the_diff < 0)])
+    query_date_id <- which(the_diff == diff_val_to_match)[1]
     query_date <- slice(all_dates, query_date_id)
   }
   
