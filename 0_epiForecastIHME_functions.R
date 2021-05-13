@@ -23,17 +23,20 @@ get_all_dates <- function(base_url = IHME_URL){
 # https://github.com/ApexRMS/covid19sim/blob/master/headers/ihme.R
 download_IHME <- function(url, tempdir = E$TempDirectory){
   
-  ihmeZip <- file.path(tempdir, "temp.zip")
+  ihmeZip <- file.path(tempdir, "IHME_forecast_tmp.zip")
   
   # Download, unzip, and remove zip file
   # - also store the original extracted folder name for renaming
   download.file(url, ihmeZip, quiet = TRUE)
-  unzip(ihmeZip, exdir = tempdir)
-  folderName <- basename(dirname(url)) 
+  out_dir <- file.path(tempdir, paste0("IHME_forecast_tmp_", 
+                                       basename(dirname(url))))
+  
+  unzip(ihmeZip, exdir = out_dir, junkpaths = TRUE)
   file.remove(ihmeZip)
   
   # Return the list of file names 
-  all_files <- list.files(file.path(tempdir, folderName), full.names = TRUE)
+  all_files <- list.files(out_dir, pattern = ".csv",
+                          full.names = TRUE, recursive = TRUE)
   
   return(all_files)
 }
