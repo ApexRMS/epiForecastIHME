@@ -46,6 +46,8 @@ load_forecast <- function(mySce, backend="IHME", E = E){
   
   closest_date <- get_closest_date(inputs$inputs$ForecastDate)
   
+  inputs$ClosestDate <- closest_date$date
+  
   all_files <- download_IHME(closest_date$url, E$TempDirectory)
   
   scenario_file <- match_scenario(all_files, inputs$inputs$ForecastScenario)
@@ -324,7 +326,7 @@ make_filename <- function(inputs){
   level_file <- ifelse(is.null(inputs$input_vars$level_covid), 
                        "global", inputs$input_vars$level_covid)
   
-  fileName <- paste0("IHME_forecast_date_", inputs$inputs$ForecastDate, 
+  fileName <- paste0("IHME_forecast_date_", inputs$ClosestDate, 
                      "_scenario_", inputs$inputs$ForecastScenario, 
                      "_for_", juris_file,
                      "_at_level_", level_file, ".csv")
@@ -346,8 +348,6 @@ save_output_info <- function(mySce, inputs, backend, filePath){
     
   }
   
-  # TODO UPDATE THIS
-  
   download_time <- as.character(Sys.time())
   
   output <- datasheet(mySce, outputsheet) %>% add_row()
@@ -356,7 +356,7 @@ save_output_info <- function(mySce, inputs, backend, filePath){
   output$DownloadFile <- filePath
   output$DownloadDateTime <- download_time
   
-  output$ForecastDate <- inputs$inputs$ForecastDate
+  output$ForecastDate <- inputs$ClosestDate
   output$Jurisdiction <- inputs$input_vars$juris_input
   output$Level <- inputs$input_vars$level_input
   
