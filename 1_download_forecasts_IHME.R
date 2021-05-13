@@ -22,13 +22,8 @@ saveDatasheet(SCE, as.data.frame(forecast$forecast) %>%
                 mutate(TransformerID = TRANSFORMER_NAME), 
               "epi_DataSummary", append = TRUE)
 
-# 4. Write out data
+# 4. Save outpout
 
-fileName <- make_filename(inputs = forecast$inputs)
-filePath <- file.path(E$TransferDirectory, fileName)
-write.csv(forecast$forecast, filePath, row.names = FALSE)
-
-# 5. Save outpout
-
+filePath <- forecast$inputs$ScenarioFile
 save_output_info(mySce = SCE, inputs = forecast$inputs, 
                  backend = "IHME", filePath = filePath)

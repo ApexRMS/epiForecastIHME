@@ -51,6 +51,8 @@ load_forecast <- function(mySce, backend="IHME", E = E){
   all_files <- download_IHME(closest_date$url, E$TempDirectory)
   
   scenario_file <- match_scenario(all_files, inputs$inputs$ForecastScenario)
+
+  inputs$ScenarioFile <- scenario_file
   
   forecast_data <- read_csv(scenario_file)
   
@@ -318,22 +320,6 @@ save_to_epi <- function(dataSubset, mySce, vars){
   
 }
 
-# Make file name
-make_filename <- function(inputs){
-  
-  juris_file <- ifelse(is.null(inputs$input_vars$juris_covid), 
-                       "all_countries", inputs$input_vars$juris_covid)
-  level_file <- ifelse(is.null(inputs$input_vars$level_covid), 
-                       "global", inputs$input_vars$level_covid)
-  
-  fileName <- paste0("IHME_forecast_date_", inputs$ClosestDate, 
-                     "_scenario_", inputs$inputs$ForecastScenario, 
-                     "_for_", juris_file,
-                     "_at_level_", level_file, ".csv")
-  
-  return(fileName)
-}
-
 # Save output info
 save_output_info <- function(mySce, inputs, backend, filePath){
   
@@ -355,7 +341,7 @@ save_output_info <- function(mySce, inputs, backend, filePath){
   output$DataSourceID <- sourceID
   output$DownloadFile <- filePath
   output$DownloadDateTime <- download_time
-  output$ForecastScenario <- inputs$ForecastScenario
+  output$ForecastScenario <- inputs$inputs$ForecastScenario
   output$ForecastDate <- inputs$ClosestDate
   output$Jurisdiction <- inputs$input_vars$juris_input
   output$Level <- inputs$input_vars$level_input
