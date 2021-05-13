@@ -355,7 +355,7 @@ save_output_info <- function(mySce, inputs, backend, filePath){
   output$DataSourceID <- sourceID
   output$DownloadFile <- filePath
   output$DownloadDateTime <- download_time
-  
+  output$ForecastScenario <- inputs$ForecastScenario
   output$ForecastDate <- inputs$ClosestDate
   output$Jurisdiction <- inputs$input_vars$juris_input
   output$Level <- inputs$input_vars$level_input
