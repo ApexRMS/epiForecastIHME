@@ -22,11 +22,11 @@ TRANSFORMER_NAME <- "Download IHME forecasts"
 IHME_URL <- "http://www.healthdata.org/covid/data-downloads"
 
 VARS <- 
-  c("Hospitalizations - Daily - Mean", "Hospitalizations - Daily - Min", "Hospitalizations - Daily - Max", 
-    "Deaths - Daily - Mean", "Deaths - Daily - Min", "Deaths - Daily - Max", 
-    "Deaths - Cumulative - Mean", "Deaths - Cumulative - Min", "Deaths - Cumulative - Max", 
-    "Infections - Daily - Mean", "Infections - Daily - Min", "Infections - Daily - Max", 
-    "Infections - Cumulative - Mean", "Infections - Cumulative - Min", "Infections - Cumulative - Max")
+  c("Hospitalizations - Daily", "Hospitalizations - Daily Min", "Hospitalizations - Daily Max", 
+    "Deaths - Daily", "Deaths - Daily Min", "Deaths - Daily Max", 
+    "Deaths - Cumulative", "Deaths - Cumulative Min", "Deaths - Cumulative Max", 
+    "Infections - Daily", "Infections - Daily Min", "Infections - Daily Max", 
+    "Infections - Cumulative", "Infections - Cumulative Min", "Infections - Cumulative Max")
 
 RAWVARS <- 
   c("admis_mean", "admis_lower", "admis_upper",
