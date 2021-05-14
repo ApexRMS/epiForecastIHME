@@ -257,7 +257,11 @@ process_data <- function(forecast_data, lookup = VARS_LOOKUP){
     # replace_na(list(Value = 0))
     filter(!is.na(Value))
   
-  # TODO calculadte cumulative hospitalizations
+  # Clean US juris
+  forecast_data_clean$Jurisdiction_temp[forecast_data_clean$Jurisdiction_temp == "United States of America"] <-
+    "United States"
+  
+  # TODO calculate cumulative hospitalizations
   
   return(forecast_data_clean)
 }
