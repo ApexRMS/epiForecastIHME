@@ -312,6 +312,7 @@
                 <column name="Jurisdiction" displayName="Jurisdiction" dataType="Integer" validationType="Datasheet" formula1="AllJurisdictions"/>
                 <column name="Level" displayName="Level" dataType="Integer" validationType="Datasheet" formula1="AllLevels"/>
                 <column name="DownloadFile" displayName="Download file" dataType="String" isExternalFile="True"/>
+                <column name="DownloadURL" displayName="File URL" dataType="String"/>
                 <column name="ForecastDate" displayName="Forecast date" dataType="Date" />
                 <column name="ForecastScenario" dataType="Integer" displayName="Forecast scenario:" validationType="List" formula1="1:Base|2:Worse|3:Masks"/>
                 <column name="DownloadDateTime" displayName="Download date/time" dataType="Date"/>                

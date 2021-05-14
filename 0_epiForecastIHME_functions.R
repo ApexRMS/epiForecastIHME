@@ -50,6 +50,7 @@ load_forecast <- function(mySce, backend="IHME", E = E){
   closest_date <- get_closest_date(inputs$inputs$ForecastDate)
   
   inputs$ClosestDate <- closest_date$date
+  inputs$URL <- closest_date$url
   
   all_files <- download_IHME(closest_date$url, E$TempDirectory)
   
@@ -347,6 +348,7 @@ save_output_info <- function(mySce, inputs, backend, filePath){
   output$DownloadDateTime <- download_time
   output$ForecastScenario <- inputs$inputs$ForecastScenario
   output$ForecastDate <- inputs$ClosestDate
+  output$DownloadURL <- inputs$URL
   output$Jurisdiction <- inputs$input_vars$juris_input
   output$Level <- inputs$input_vars$level_input
   
