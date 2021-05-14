@@ -243,7 +243,7 @@
             <defaultRecords>
               <record columns="Name" values="(1) Country"/>
               <record columns="Name" values="(2) State / Province"/>
-              <record columns="Name" values="(3) Lower"/>
+              <!-- <record columns="Name" values="(3) Lower"/> -->
             </defaultRecords>
           </datasheet>
         </datasheets>
