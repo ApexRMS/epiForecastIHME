@@ -228,11 +228,24 @@ match_scenario <- function(files, scenarioname){
 process_data <- function(forecast_data, lookup = VARS_LOOKUP){
   
   forecast_data_selected <- forecast_data %>%
-    select(-contains(c("type", "rate", "confirmed", "bed", "Ven",
-                       "ICU", "mobility", "tests", "seroprev", "pop"))) %>% 
+    select(-contains(c("type", "rate", "confirmed", "new", "Ven",
+                       "mobility", "tests", "seroprev", "pop"))) %>% 
     select(-c("deaths_upper", "deaths_lower", "deaths_mean")) %>% 
     select(-c("totdea_upper", "totdea_lower", "totdea_mean")) %>% 
     select(-c("V1", "location_id"))
+
+  for(var_id in seq_len(length.out=nrow(VARS_LOOKUP))){
+
+    raw_var <- VARS_LOOKUP$RAWVARS[var_id]
+    clean_var_name <- VARS_LOOKUP$VARS[var_id]
+
+    if(!(raw_var %in% colnames(forecast_data_selected))) {
+
+      message(paste0("Variable ", clean_var_name, " not found in dataset."))
+
+    }
+
+  }
   
   forecast_data_clean <- forecast_data_selected %>% 
     rename(Timestep = date, Jurisdiction_temp = location_name) %>% 
