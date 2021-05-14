@@ -22,18 +22,20 @@ TRANSFORMER_NAME <- "Download IHME forecasts"
 IHME_URL <- "http://www.healthdata.org/covid/data-downloads"
 
 VARS <- 
-  c("Hospitalizations - Daily", "Hospitalizations - Daily Min", "Hospitalizations - Daily Max", 
+  c("In Hospital - Daily", "In Hospital - Daily Min", "In Hospital - Daily Max", 
     "Deaths - Daily", "Deaths - Daily Min", "Deaths - Daily Max", 
     "Deaths - Cumulative", "Deaths - Cumulative Min", "Deaths - Cumulative Max", 
     "Infections - Daily", "Infections - Daily Min", "Infections - Daily Max", 
-    "Infections - Cumulative", "Infections - Cumulative Min", "Infections - Cumulative Max")
+    "Infections - Cumulative", "Infections - Cumulative Min", "Infections - Cumulative Max", 
+    "In ICU - Daily", "In ICU - Daily Min", "In ICU - Daily Max")
 
 RAWVARS <- 
   c("admis_mean", "admis_lower", "admis_upper",
     "deaths_mean_smoothed", "deaths_lower_smoothed", "deaths_upper_smoothed", 
     "totdea_mean_smoothed", "totdea_lower_smoothed", "totdea_upper_smoothed", 
     "est_infections_mean", "est_infections_lower", "est_infections_upper", 
-    "inf_cuml_mean", "inf_cuml_lower", "inf_cuml_upper")
+    "inf_cuml_mean", "inf_cuml_lower", "inf_cuml_upper", 
+    "ICUbed_mean", "ICUbed_lower", "ICUbed_upper")
 
 VARS_LOOKUP <- data.frame(VARS = VARS,
                           RAWVARS = RAWVARS)
