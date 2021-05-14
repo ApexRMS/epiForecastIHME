@@ -254,7 +254,8 @@ process_data <- function(forecast_data, lookup = VARS_LOOKUP){
     select(-"RAWVARS") %>% rename(Variable = VARS) %>% 
     relocate(Variable, .after = "Jurisdiction_temp") %>% 
     filter(!is.na(Variable)) %>% 
-    replace_na(list(Value = 0))
+    # replace_na(list(Value = 0))
+    filter(!is.na(Value))
   
   # TODO calculadte cumulative hospitalizations
   
